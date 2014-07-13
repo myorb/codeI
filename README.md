@@ -8,6 +8,7 @@ config db connection in application/config/database.php file
 SQL
 -------
 1
+------
 SELECT s.url, s.first_incubated_date, s.name, s.follower_count
                 FROM startup AS s
                 LEFT JOIN activity AS a ON s.id = a.id_startup
@@ -20,6 +21,7 @@ SELECT s.url, s.first_incubated_date, s.name, s.follower_count
                 WHERE a.type_author =  'User'
                 ORDER BY 4 DESC 
 2
+------
 SELECT s.url,s.created_at_api, SUM(p.follower_count) as followers FROM startup as s 
                 JOIN activity as a ON s.id = a.id_startup
                 JOIN person as p ON p.id_user = a.id_author
