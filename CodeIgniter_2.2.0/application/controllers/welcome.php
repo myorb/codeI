@@ -20,16 +20,28 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 
-        $data['Startup'] = $this->Startup  ->get_last_ten_entries();
-        // var_dump($data['Startup']);
+		if($this->input->is_ajax_request()){
 
-        // $data['Act'] = $this->Activity->get_last_ten_entries();
-        // $data['Pers'] = $this->Person->get_last_ten_entries();
+			$from = $this->input->post('email'). ' Name: '.$this->input->post('name') ;
+		    $subject = $this->input->post('subject');
+		    $message = $this->input->post('message');
+		    // message lines should not exceed 70 characters (PHP rule), so wrap it
+		    $message = wordwrap($message, 70);
+		    // send mail
+		    mail("itmedved@gmail.com",$subject,$message,"From: $from\n");
 
-		$data['result_one'] = $this->Startup->get_first_result();
-		$data['result_two'] = $this->Startup->get_last_ten_entries();
+			echo json_encode(array('success'=>1));
+			die();
+		}
 
-		$this->load->view('welcome_message', $data);
+		// $data['result_one'] = $this->Startup->get_first_result();
+		// $data['result_two'] = $this->Startup->get_second_result();
+
+		$this->load->view('welcome_message');
+	}
+
+	public function contact(){
+		echo "string";
 	}
 }
 

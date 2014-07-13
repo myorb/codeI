@@ -132,7 +132,7 @@ function sendMessage() {
     var dataString = $('#cform').serialize();
     $.ajax({
         type: "POST",
-        url: 'contact.php',
+        url: document.URL,
         data: dataString,
         dataType: 'json',
         success: function (data) {

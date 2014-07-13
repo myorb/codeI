@@ -22,7 +22,15 @@
 <script type="text/javascript" src="scripts/waypoints.min.js"></script>
 <script type="text/javascript" src="scripts/setup.js"></script>
 
-
+<style>
+  .mytable{
+    width: 100%;
+  }
+  .mytable tr{
+    text-align: center;
+    padding: 1px;
+  }
+</style>
 </head>
 <body>
 <div id="wrap"> 
@@ -48,7 +56,7 @@
     		<h3 class="page_title">Выбрать стартапы в порядке спадания количества фоловеров  </h3>
     
             <div class="page_content">
-	        <p> Выбрать стартапы в промежутке дат startup.first_incubated_date и вывести их в порядке спадания количества фоловеров компаний
+	        <p> Выбрать стартапы <span style="color:#A296BB">в промежутке дат startup.first_incubated_date</span> и вывести их в порядке спадания количества фоловеров компаний
 которые "инкубировали" эти стартапы в форме (ссылка - url,дата инкубации - first_incubated_date,имя инкубатора - name, количество фоловеров инкубатора).
 Данные о том кто кого инкубировал хранятся в таблице activity.
 id_author - if(type_author==Startup) id компании которая инкубировала (поле id с таблицы стартап) elseif (type_author==User) id юзера с таблицы Person.id_user
@@ -57,20 +65,23 @@ follower_count - количество фоловеров
 * в таблице активити хранятся все записи об активности, 1 стартап может быть инкубирован несколько раз, нужно достать информацию только о 1-м инкубировании</p>
           </div>
     </div>
-    <div class="page" id="about"> 
+    <div class="page result_one" id="about"> 
       <!-- page about -->
       <h3 class="page_title"> Решение</h3>
       <div class="page_content">
         <?php
-        $this->table->set_heading('Ссылка','| Дата инкубации',' | Имя инкубатора ', '| Количество фоловеров');
-        foreach ($result_one as $key => $value) {
-          $this->table->add_row($value->url, $value->first_incubated_date, $value->name);
-          # code...
-        }
+        // $this->table->set_heading('Ссылка','| Дата инкубации',' | Имя инкубатора ', '| Количество фоловеров');
+        // foreach ($result_one as $key => $value) {
+        //   $this->table->add_row($value->url, $value->first_incubated_date, $value->name);
+        //   # code...
+        // }
 
-        echo $this->table->generate();
+        // echo $this->table->generate();
+
+        echo $this->Startup->get_table_formated_first_result();
 
         ?>
+
         <div class="clear"> </div>
       </div>
     </div>
@@ -78,24 +89,28 @@ follower_count - количество фоловеров
       <!-- page portfolio -->
       <h3 class="page_title"> Выбрать стартапы по количеству фоловеров</h3>
       <div class="page_content">
-        <p>Выбрать стартапы в промежутке дат startup.created_at_api и вывести их в спадающем списке по сумарному количеству фоловеров
+        <p>Выбрать стартапы <span style="color:#A296BB">в промежутке дат startup.created_at_api</span> и вывести их в спадающем списке по сумарному количеству фоловеров
 у всех пользователей которые были в активности у этого стартапа в форме (ссылка, дата создания, сумарное количество фоловеров)</p>
       </div>
     </div>
-    <div class="page" id="skills"> 
+    <div class="page result_two" id="skills"> 
       <!-- page skills -->
       <h3 class="page_title"> Решение</h3>
       <div class="page_content"> 
    
     <?php        
-        $this->table->set_heading('Ссылка','| Дата инкубации',' | Имя инкубатора ', '| сумарное Количество фоловеров');
+    // url  follower_count 
+        /*$this->table->set_heading('Ссылка','| Дата инкубации',' | Имя инкубатора ', '| сумарное Количество фоловеров');
         foreach ($result_two as $key => $value) {
-          $this->table->add_row($value->url, $value->first_incubated_date, $value->name);
+          $this->table->add_row($value->url, $value->created, $value->name,$value->follower_count);
           # code...
         }
 
         echo $this->table->generate();
+*/
+        echo $this->Startup->get_table_formated_second_result();
 
+        // var_dump($result_two);
     ?>
 <div class="clear"> </div>
       </div>
@@ -135,4 +150,13 @@ follower_count - количество фоловеров
 </div>
 <a class="gotop" href="#top">Top</a>
 </body>
+
+<script>
+//make all urls at tables in to link
+  $.each( $('table tr td:first-child'), function( key, value ) {
+    $(this).html('<a target="_blank" href='+$(value).text()+'>'+$(value).text()+'</a>');
+  });
+
+</script>
+
 </html>
